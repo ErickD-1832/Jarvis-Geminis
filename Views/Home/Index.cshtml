@@ -1,0 +1,201 @@
+﻿@model Jarvis.Models.ChatViewModel
+
+@{
+    ViewData["Title"] = "Jarvis AI Assistant";
+}
+
+<!-- Efecto de partículas en el fondo -->
+<div class="particles" id="particles"></div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 col-lg-10 mx-auto">
+            <!-- Panel principal de Jarvis -->
+            <div class="jarvis-container">
+                <!-- Header -->
+                <div class="jarvis-header text-center">
+                    <div class="d-flex align-items-center justify-content-center mb-2">
+                        <span class="status-indicator"></span>
+                        <h1 class="jarvis-title">JARVIS</h1>
+                    </div>
+                    <p class="jarvis-subtitle">SISTEMA ASISTENTE DE INTELIGENCIA ARTIFICIAL</p>
+                    <div class="mt-2">
+                        <small class="text-info">ESTADO: <span class="text-success">OPERATIVO</span></small>
+                    </div>
+                </div>
+
+                <!-- Cuerpo del chat -->
+                <div class="card-body p-4">
+                    <!-- Área del chat -->
+                    <div id="chat-container" class="chat-container">
+                        @if (!Model.Messages.Any())
+                        {
+                            <div class="text-center text-muted mt-5">
+                                <i class="fas fa-robot fa-3x mb-3" style="color: var(--jarvis-blue);"></i>
+                                <p>JARVIS INICIALIZADO. LISTO PARA ASISTIR EN PROGRAMACIÓN.</p>
+                                <small>Selecciona una pregunta de ejemplo o escribe tu consulta</small>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var message in Model.Messages)
+                            {
+                                <div class="message @(message.IsUser ? "user-message" : "bot-message")">
+                                    <div class="message-bubble">
+                                        <div class="message-text">@Html.Raw(message.Message.Replace("\n", "<br>"))</div>
+                                        <span class="message-time">
+                                            @message.Timestamp.ToString("HH:mm")
+                                            @if (message.IsUser)
+                                            {
+                                                <i class="fas fa-user ms-1"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-robot ms-1"></i>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Formulario de entrada -->
+                    <form asp-action="SendMessage" method="post" class="mt-3">
+                        <div class="chat-input-container d-flex">
+                            <input type="text" asp-for="NewMessage" class="chat-input" 
+                                   placeholder="Escribe tu consulta de programación..." 
+                                   id="messageInput" />
+                            <button type="submit" class="send-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Botones de acción -->
+                    <div class="action-buttons justify-content-center">
+                        <a asp-action="ClearChat" class="btn-robot">
+                            <i class="fas fa-eraser"></i> LIMPIAR CONVERSACIÓN
+                        </a>
+                        <button class="btn-robot" onclick="showExamples()">
+                            <i class="fas fa-lightbulb"></i> EJEMPLOS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de ejemplos (inicialmente oculto) -->
+            <div id="examplesPanel" class="examples-panel" style="display: none;">
+                <h6 class="examples-title">CONSULTAS DE PROGRAMACIÓN SUGERIDAS</h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="example-question" data-question="¿Qué es la programación orientada a objetos?">
+                            <i class="fas fa-cube me-2"></i>Programación Orientada a Objetos
+                        </button>
+                        <button class="example-question" data-question="Explícame los conceptos de herencia en C#">
+                            <i class="fas fa-sitemap me-2"></i>Herencia en C#
+                        </button>
+                        <button class="example-question" data-question="¿Cómo funciona el garbage collector en .NET?">
+                            <i class="fas fa-trash-alt me-2"></i>Garbage Collector .NET
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="example-question" data-question="Muéstrame un ejemplo de async/await en C#">
+                            <i class="fas fa-bolt me-2"></i>Async/Await en C#
+                        </button>
+                        <button class="example-question" data-question="¿Qué son los delegates y eventos en C#?">
+                            <i class="fas fa-broadcast-tower me-2"></i>Delegates y Eventos
+                        </button>
+                        <button class="example-question" data-question="Diferencia entre interface y clase abstracta">
+                            <i class="fas fa-code me-2"></i>Interface vs Clase Abstracta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/jarvis-robot.css" />
+}
+
+@section Scripts {
+    <script>
+        // Inicializar partículas
+        function initParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll automático al final del chat
+        function scrollToBottom() {
+            const container = document.getElementById('chat-container');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Mostrar/ocultar panel de ejemplos
+        function showExamples() {
+            const panel = document.getElementById('examplesPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Manejar preguntas de ejemplo
+        document.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            scrollToBottom();
+            
+            // Configurar preguntas de ejemplo
+            document.querySelectorAll('.example-question').forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    document.getElementById('messageInput').value = question;
+                    document.querySelector('form').submit();
+                });
+            });
+
+            // Focus en el input
+            document.getElementById('messageInput').focus();
+
+            // Efecto de escritura para mensajes nuevos
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length) {
+                        scrollToBottom();
+                    }
+                });
+            });
+
+            observer.observe(document.getElementById('chat-container'), {
+                childList: true,
+                subtree: true
+            });
+        });
+
+        // Efecto de escritura simulada (opcional)
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    </script>
+}

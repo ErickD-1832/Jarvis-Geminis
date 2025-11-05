@@ -1,0 +1,389 @@
+/* Jarvis Robot Theme - Futuristic AI Interface */
+:root {
+    --jarvis-blue: #00b4ff;
+    --jarvis-dark: #0a0a0f;
+    --jarvis-panel: #1a1a2e;
+    --jarvis-accent: #00ff88;
+    --jarvis-glow: 0 0 20px rgba(0, 180, 255, 0.5);
+    --jarvis-text-glow: 0 0 10px rgba(0, 180, 255, 0.8);
+}
+
+body {
+    background: linear-gradient(135deg, var(--jarvis-dark) 0%, #16213e 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Container principal con efecto de panel holográfico */
+.jarvis-container {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--jarvis-blue);
+    border-radius: 15px;
+    box-shadow: var(--jarvis-glow), inset 0 0 50px rgba(0, 180, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.jarvis-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--jarvis-blue), transparent);
+    animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Header robótico */
+.jarvis-header {
+    background: linear-gradient(135deg, var(--jarvis-panel) 0%, #0f3460 100%);
+    border-bottom: 2px solid var(--jarvis-blue);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.jarvis-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 2.2rem;
+    background: linear-gradient(45deg, var(--jarvis-blue), var(--jarvis-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--jarvis-text-glow);
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.jarvis-subtitle {
+    color: #88ffcc;
+    font-size: 1rem;
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+}
+
+/* Indicador de estado del AI */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: var(--jarvis-accent);
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 0 10px var(--jarvis-accent);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Área del chat futurista */
+.chat-container {
+    height: 500px;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(0, 180, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(10, 10, 15, 0.9) 0%, rgba(26, 26, 46, 0.9) 100%);
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Scrollbar personalizado */
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+    background: rgba(0, 180, 255, 0.1);
+    border-radius: 4px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: var(--jarvis-blue);
+    border-radius: 4px;
+    box-shadow: var(--jarvis-glow);
+}
+
+/* Mensajes del usuario y del bot */
+.message {
+    margin-bottom: 20px;
+    animation: messageSlide 0.3s ease-out;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message {
+    text-align: right;
+}
+
+.bot-message {
+    text-align: left;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 15px 20px;
+    border-radius: 20px;
+    position: relative;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+.user-message .message-bubble {
+    background: linear-gradient(135deg, var(--jarvis-blue), #0099cc);
+    color: white;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 180, 255, 0.3);
+}
+
+.bot-message .message-bubble {
+    background: linear-gradient(135deg, #2d3047, #3a3f5b);
+    color: #e0e0ff;
+    border-bottom-left-radius: 5px;
+    border: 1px solid rgba(0, 180, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Efectos de texto para mensajes del bot */
+.bot-message .message-text {
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+.bot-message .message-text code {
+    background: rgba(0, 180, 255, 0.2);
+    color: #88ffcc;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Timestamp */
+.message-time {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Formulario de entrada futurista */
+.chat-input-container {
+    background: rgba(26, 26, 46, 0.8);
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    border-radius: 25px;
+    padding: 5px;
+    margin-top: 20px;
+    box-shadow: var(--jarvis-glow);
+}
+
+.chat-input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+}
+
+.chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.send-button {
+    background: linear-gradient(135deg, var(--jarvis-blue), var(--jarvis-accent));
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 180, 255, 0.5);
+}
+
+.send-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(0, 180, 255, 0.8);
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-robot {
+    background: rgba(0, 180, 255, 0.2);
+    border: 1px solid var(--jarvis-blue);
+    color: var(--jarvis-blue);
+    border-radius: 20px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-robot:hover {
+    background: var(--jarvis-blue);
+    color: white;
+    box-shadow: var(--jarvis-glow);
+    text-decoration: none;
+}
+
+/* Panel de ejemplos de preguntas */
+.examples-panel {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.examples-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--jarvis-blue), transparent);
+}
+
+.examples-title {
+    font-family: 'Orbitron', monospace;
+    color: var(--jarvis-blue);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.example-question {
+    background: rgba(0, 180, 255, 0.1);
+    border: 1px solid rgba(0, 180, 255, 0.3);
+    color: #88ccff;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.example-question:hover {
+    background: rgba(0, 180, 255, 0.3);
+    border-color: var(--jarvis-blue);
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 180, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Efectos de partículas en el fondo */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--jarvis-blue);
+    border-radius: 50%;
+    animation: float 6s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .jarvis-title {
+        font-size: 1.8rem;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+    }
+    
+    .chat-container {
+        height: 400px;
+    }
+}
+
+/* Efectos de carga */
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 15px 20px;
+    background: rgba(45, 48, 71, 0.8);
+    border-radius: 20px;
+    border-bottom-left-radius: 5px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--jarvis-blue);
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
